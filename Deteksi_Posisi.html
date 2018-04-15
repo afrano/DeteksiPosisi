@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lokasi Saya Sekarang</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <style> 
+            #map {
+                height: 80%;
+            }
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div id="map"></div>
+		     Anda berada pada <br><br>Latitude : <input type="text"  id="nilailatitude" value="" />    <br><br>
+			Logitude : <input type="text"  id="nilailogitude" value="" />  
+			
+		<!--	javascript untuk mendapatkan lat-log -->
+        <script>
+            // set geolocationya
+            var LokasiSaya = navigator.geolocation;
+            LokasiSaya.getCurrentPosition(terdeteksi, tidak);
+
+            // function get current posisi di temukan
+            function terdeteksi(position) {
+                var myLat = position.coords.latitude;
+                var myLong = position.coords.longitude;
+
+				// set latitude and longitudenya
+                var tanda = new google.maps.LatLng(myLat, myLong);
+
+				document.getElementById("nilailatitude").value = myLat; // memindahkan javascript ke html
+				document.getElementById("nilailogitude").value = myLong; // memindahkan javascript ke html
+
+				// set ke tanda/marker
+                var mapOptions = {
+                    zoom: 16,
+                    center: tanda,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+
+				// generate map google
+                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+				// marker position
+                var marker = new google.maps.Marker({map: map, position: tanda});
+            }
+
+			// disini kalau lokasi tidak dideteksi
+            function tidak() {
+                alert('Lokai Anda Tidak Terdeteksi');
+            }
+
+        </script>
+		<!-- disini memasukan key API Maps AIzaSyDW_u3PHV3bRsMPlcR3ikqH9NFRfeccLQ8-->
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=masukankuncindisini&callback=initMap"
+        type="text/javascript">
+		</script>
+    </body>
+</html>
